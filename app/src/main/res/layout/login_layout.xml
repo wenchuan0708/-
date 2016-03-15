@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:text="广外助手"
+            android:textColor="#6699FF"
+            android:textSize="27sp"
+            android:padding="30dp"
+            />
+    </LinearLayout>
+    <EditText
+        android:hint="学号"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="11"
+        android:padding="10dp"
+        android:id="@+id/login_id"/>
+    <EditText
+        android:hint="密码"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="11"
+        android:padding="10dp"
+        android:id="@+id/login_pwd"/>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/sign_in"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:text="登陆"
+            android:layout_marginTop="20dp"
+            android:textColor="#ffffff"
+            android:background="#6699FF"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="http://jxgl.gdufs.edu.cn/"
+            android:padding="8dp"
+            android:textColor="#6699FF"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
