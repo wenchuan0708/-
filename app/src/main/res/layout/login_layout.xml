@@ -34,9 +34,11 @@
         android:hint="密码"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="11"
+        android:maxLength="20"
         android:padding="10dp"
+        android:password="true"
         android:id="@+id/login_pwd"/>
+
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

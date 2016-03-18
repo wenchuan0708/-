@@ -11,11 +11,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.yongjian.gdufszhushou.CallBack;
 import com.yongjian.gdufszhushou.R;
 import com.yongjian.gdufszhushou.Util.HttpUtil;
+import com.yongjian.gdufszhushou.Widge.AlertDialogHelper;
 
 /**
  * Created by YONGJIAN on 2016/3/15 0015.
@@ -25,8 +28,6 @@ public class LoginActivity  extends Activity {
     private EditText userId;
     private EditText pwd;
     private Button loginbtn;
-    private ProgressDialog  progressDialog;
-
     private String user="";
     private String pass="";
 
@@ -34,29 +35,24 @@ public class LoginActivity  extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-
-        isGetCookie();
-
         loginbtn=(Button)findViewById(R.id.sign_in);
         userId =(EditText) findViewById(R.id.login_id);
         pwd = (EditText) findViewById(R.id.login_pwd);
+        isSetUser();
 
         loginbtn.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 user = userId.getText().toString();
                 pass = pwd.getText().toString();
+                Log.d("AAA",pass);
                 saveUserandPass();
             }
         });
     }
     public void saveUserandPass(){
             if (TextUtils.isEmpty(user)||TextUtils.isEmpty(pass)){
-                new AlertDialog.Builder(this)
-                               .setTitle("善意的提醒")
-                               .setPositiveButton("确定",null)
-                               .setMessage("请填写完整的学号和密码")
-                               .show();
+                AlertDialogHelper.showAlertDialog(LoginActivity.this,"善意的提醒","请填写完整的学号和密码");
             }else
             {
                 HttpUtil.userName = user;
@@ -64,8 +60,7 @@ public class LoginActivity  extends Activity {
                 HttpUtil.login(new CallBack() {
                     @Override
                     public void onStart() {
-                        saveCookie();
-                        Log.d("TAG",HttpUtil.cookie);
+                        saveUser();
                         Intent intent = new Intent(LoginActivity.this,DrawerLayoutActivity.class);
                         startActivity(intent);
                         finish();
@@ -76,11 +71,7 @@ public class LoginActivity  extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialog.Builder(LoginActivity.this)
-                                        .setTitle("善意的提醒")
-                                        .setPositiveButton("确定",null)
-                                        .setMessage("登陆失败，请确保学号和密码输入正确，并尝试再次登陆")
-                                        .show();
+                                AlertDialogHelper.showAlertDialog(LoginActivity.this,"善意的提醒","登陆失败，请确保学号和密码输入正确，并尝试再次登陆");
                             }
                         });
                     }
@@ -88,19 +79,25 @@ public class LoginActivity  extends Activity {
             }
     }
 
-    private void isGetCookie() {
+    private void isSetUser() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getBoolean("cookie_Ok",false)){
-            HttpUtil.cookie = prefs.getString("cookie",null);
-            Intent intent = new Intent(LoginActivity.this,DrawerLayoutActivity.class);
-            startActivity(intent);
-            finish();
+        if(prefs.getBoolean("store_OK",false)){
+            HttpUtil.userName = prefs.getString("username",null);
+            HttpUtil.password = prefs.getString("password",null);
+            userId.setText(HttpUtil.userName);
+            pwd.setText(HttpUtil.password);
         }
     }
-    private void saveCookie(){
-        SharedPreferences.Editor edit =  PreferenceManager.getDefaultSharedPreferences(this).edit();
-        edit.putBoolean("cookie_Ok",true);
-        edit.putString("cookie",HttpUtil.cookie);
+    private void saveUser() {
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        edit.putBoolean("store_OK", true);
+        edit.putString("username", HttpUtil.userName);
+        edit.putString("password",HttpUtil.password);
         edit.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

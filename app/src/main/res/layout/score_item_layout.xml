@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    >
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80"
+        android:padding="15dp"
+        android:textSize="20sp"
+        />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/score_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据库技术"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/score_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3学分"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/score_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="必修"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/score_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3.0"
+            android:layout_gravity="center"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
