@@ -1,6 +1,7 @@
 package com.yongjian.gdufszhushou.Util;
 
 import android.content.Context;
+import android.telecom.Call;
 import android.util.Log;
 import android.util.MutableChar;
 
@@ -103,58 +104,69 @@ public class HttpUtil {
         StringRequest stringRequest = null;
         RequestQueue mQueue = Volley.newRequestQueue(context);
 
-        stringRequest = new StringRequest(Method,url,new Response.Listener<String>(){
+        if (Method == Request.Method.POST) {
+            stringRequest = new StringRequest(Method, url, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String s) {
-             String a = s.substring(s.length()-200,s.length()-1);
-                Log.d("CCC", a);
+                @Override
+                public void onResponse(String s) {
+                    String a = s.substring(s.length() - 100, s.length() - 1);
+                    Log.d("CCC", a);
+                    Log.d("CCC",s);
 
-                callBack.onFinsh(s);
-            }
-        },new Response.ErrorListener(){
+                    callBack.onFinsh(s);
+                }
+            }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ProgressDialogHelper.closeProgressDialog();
-                AlertDialogHelper.showAlertDialog(mcontext,"出问题了","导入失败，请检查你的网络,再次尝试");
-              Log.e("TAG", volleyError.getMessage(), volleyError);
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders()  {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    ProgressDialogHelper.closeProgressDialog();
+                    AlertDialogHelper.showAlertDialog(mcontext, "出问题了", "导入失败，请检查你的网络,再次尝试");
+                    Log.e("TAG", volleyError.getMessage(), volleyError);
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() {
                     return headers;
-            }
+                }
 
-            @Override
-            protected Map<String, String> getParams() {
-                return map;
-            }
-//            @Override
-//            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                @Override
+                protected Map<String, String> getParams() {
+                    return map;
+                }
 //
-//                String result = "";
-//                try {
-//                    if(isGBK){
-//                        result = new String(response.data, "GB2312");
-//                        isGBK=false;
-//                    }
-//                    else
-//                        result = new String(response.data, "utf-8");
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//                return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
-//            }
-        };
-       stringRequest.setRetryPolicy(new DefaultRetryPolicy(12000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            };
+        }else {
+            stringRequest = new StringRequest(url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String s) {
+                    String a = s.substring(s.length() - 400, s.length() - 1);
+                    Log.d("CCC", a);
+                    Log.d("CCC",s);
+
+                    callBack.onFinsh(s);
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    ProgressDialogHelper.closeProgressDialog();
+                    AlertDialogHelper.showAlertDialog(mcontext, "出问题了", "导入失败，请检查你的网络,再次尝试");
+                    Log.e("TAG", volleyError.getMessage(), volleyError);
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() {
+                    return headers;
+                }
+            };
+
+        }
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(12000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(stringRequest);
         mQueue.start();
 
     }
-
-
-
 
     public static void getScoreHtml(final Context context,final CallBack callBack){
         new Thread(new Runnable() {
@@ -199,6 +211,38 @@ public class HttpUtil {
                     }
                 }, Request.Method.POST,headers,map);
 
+            }
+        }).start();
+    }
+
+    public static void getCorseHtml(final Context context, final CallBack callBack){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                callBack.onStart();
+                String url = "http://jxgl.gdufs.edu.cn/jsxsd/xskb/xskb_list.do?Ves632DSdyV=NEW_XSD_PYGL";
+                Map<String,String> headers = new HashMap<String, String>();
+
+                headers.put("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+                headers.put("Accept-Encoding","gzip, deflate, sdch");
+                headers.put("Accept-Language","zh-CN,zh;q=0.8");
+                headers.put("Connection","keep-alive");
+                headers.put("Cookie",cookie);
+                headers.put("Host", "jxgl.gdufs.edu.cn");
+                headers.put("Referer","http://jxgl.gdufs.edu.cn/jsxsd/framework/main.jsp");
+                headers.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36");
+
+                getHtmlUtil(context, url, new CallBack() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onFinsh(String response) {
+                        HandleResponseUtil.handleCourseHtmlStr(response,callBack);
+                    }
+                }, Request.Method.GET,headers,null);
             }
         }).start();
     }

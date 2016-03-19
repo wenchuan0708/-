@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.yongjian.gdufszhushou.Fragment.CourseFragment;
 import com.yongjian.gdufszhushou.Fragment.ScoreFragment;
 import com.yongjian.gdufszhushou.R;
 
@@ -70,7 +71,8 @@ public class DrawerLayoutActivity extends AppCompatActivity {
         );
     }
     private void switchToCourse(){
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.cotainer,new CourseFragment()).commit();
+        toolbar.setTitle("课表查询");
     }
     private void switchToNews(){
 

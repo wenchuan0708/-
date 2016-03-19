@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    >
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第一大节"
+        android:padding="10dp"
+        android:textSize="15sp"
+        />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/course_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据库技术"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/course_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="南实C507"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="王娟"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:id="@+id/weekTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1-16(周)"
+            android:layout_gravity="center"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

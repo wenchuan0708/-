@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tab_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:visibility="gone">
+
+    </com.astuetz.PagerSlidingTabStrip>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/empty_layout"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/impotbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="从教务系统导入课表"
+            android:padding="10dp"
+            android:background="#6699FF"
+            android:textColor="#ffffff"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#6699FF"
+            android:padding="15dp"
+            android:text="若导入失败，请使用电脑登陆教务系统查看是否能正确查询成绩"/>
+
+    </LinearLayout>
+
+</LinearLayout>
