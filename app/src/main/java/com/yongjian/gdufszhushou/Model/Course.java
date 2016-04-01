@@ -9,13 +9,13 @@ public class Course {
     private String Classroom;
     private String Time;
     private String ContinuedWeek;
-    private int Id;
+    private String Id;
 
     public void setCourseName(String courseName) {
         CourseName = courseName;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 
@@ -35,7 +35,7 @@ public class Course {
         Teacher = teacher;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 

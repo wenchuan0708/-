@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.yongjian.gdufszhushou.Model.Course;
 import com.yongjian.gdufszhushou.R;
 
+import org.jsoup.select.Evaluator;
+
 import java.util.List;
 
 /**
@@ -56,13 +58,34 @@ public class CourseAdapter extends BaseAdapter {
         }
 
         Course course = data.get(position);
-        holder.courseName.setText(course.getCourseName());
-        holder.courseRoom.setText(course.getClassroom());
-        holder.courseTeacher.setText(course.getTeacher());
-        holder.courseTime.setText(course.getTime());
-        holder.courseWeek.setText(course.getContinuedWeek());
+        if(course !=null) {
+            int circleShape = 0;
+            String courseTime = course.getTime();
+            if (courseTime.equals("08:30-09:50")) {
+                circleShape =R.drawable.circle_amber;
+            } else if (courseTime.equals("10:00-11:30")) {
+                circleShape=R.drawable.circle_blue;
+            } else if (courseTime.equals("11:30-12:15")) {
+                circleShape=R.drawable.circle_brown;
+            } else if (courseTime.equals("14:00-15:20")) {
+                circleShape=R.drawable.circle_cyan;
+            } else if (courseTime.equals("15:30-16:50")) {
+                circleShape=R.drawable.circle_green;
+            } else if (courseTime.equals("18:30-20:30")) {
+                circleShape=R.drawable.circle_deep_orange;
+            } else {
+                circleShape =R.drawable.circle_indigo;
+            }
 
+            holder.courseName.setText(course.getCourseName());
+            holder.courseRoom.setText(course.getClassroom());
+            holder.courseTeacher.setText(course.getTeacher());
+            holder.courseTime.setText(course.getTime());
+            holder.courseTime.setBackgroundResource(circleShape);
+            holder.courseWeek.setText(course.getContinuedWeek());
+        }
         return convertView;
+
     }
 
 

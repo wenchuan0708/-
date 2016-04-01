@@ -32,6 +32,7 @@ public class CourseFragment extends Fragment {
     private ViewPager viewPager;
     private LinearLayout emptyLayout;
     private List<List<Course>> data = HandleResponseUtil.courseData;
+    int flag = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,9 +42,7 @@ public class CourseFragment extends Fragment {
         viewPager = (ViewPager)view.findViewById(R.id.viewPager);
         emptyLayout = (LinearLayout) view.findViewById(R.id.empty_layout);
 
-        if (HandleResponseUtil.db == null)
-            HandleResponseUtil.db = Db.getInstance(getActivity());
-
+        findFromDb();
         importbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +63,7 @@ public class CourseFragment extends Fragment {
                             @Override
                             public void run() {
                                 initViewPage();
+                                flag =1;
                                 ProgressDialogHelper.closeProgressDialog();
                             }
                         });
@@ -73,6 +73,20 @@ public class CourseFragment extends Fragment {
         });
         return view;
     }
+    private void findFromDb() {
+        if(data.size()==0){
+            if(HandleResponseUtil.db==null){
+                HandleResponseUtil.db= Db.getInstance(getActivity());
+            }
+            if(HandleResponseUtil.db!=null&&flag ==1){
+                if(HandleResponseUtil.db.loadCourse()){
+                    initViewPage();
+                }
+            }
+        }
+        else
+            initViewPage();
+    }
     public void initViewPage(){
         vpAdapter = new ViewPagerAdapter(getActivity(),data);
         viewPager.setAdapter(vpAdapter);
@@ -81,6 +95,7 @@ public class CourseFragment extends Fragment {
         viewPager.setVisibility(View.VISIBLE);
         emptyLayout.setVisibility(View.GONE);
         whatDayIs();
+        flag = 1;
     }
     private void whatDayIs() {
         Calendar calendar = Calendar.getInstance();

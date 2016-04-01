@@ -180,20 +180,28 @@ public class HandleResponseUtil {
         Log.d("CCC",result[4]);
         course.setTime(switchTime(j));
         if (i == 0){
+            course.setId("1");
             list1.add(course);
         }else if (i==1){
+            course.setId("2");
             list2.add(course);
         }else if (i==2){
+            course.setId("3");
             list3.add(course);
         }else if (i==3){
+            course.setId("4");
             list4.add(course);
         }else if (i==4){
+            course.setId("5");
             list5.add(course);
         }else if (i==5){
+            course.setId("6");
             list6.add(course);
         }else {
+            course.setId("7");
             list7.add(course);
         }
+        db.saveCourse(course);
     }
     public static String switchTime(int j){
         int a = j-1;
@@ -221,6 +229,31 @@ public class HandleResponseUtil {
             courseData.add(list5);
             courseData.add(list6);
             courseData.add(list7);
+        }
+    }
+    public static void addToList(String id, Course course) {
+        switch (id){
+            case "1":
+                list1.add(course);
+                break;
+            case "2":
+                list2.add(course);
+                break;
+            case "3":
+                list3.add(course);
+                break;
+            case "4":
+                list4.add(course);
+                break;
+            case "5":
+                list5.add(course);
+                break;
+            case "6":
+                list6.add(course);
+                break;
+            case "7":
+                list7.add(course);
+                break;
         }
     }
     public static void clear(){

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.android.volley.toolbox.StringRequest;
+import com.yongjian.gdufszhushou.Model.Course;
 import com.yongjian.gdufszhushou.Model.Score;
 import com.yongjian.gdufszhushou.Util.HandleResponseUtil;
 
@@ -60,6 +62,46 @@ public class Db {
             return true;
         }
         return  false;
+    }
+    public void saveCourse(Course course){
+
+        if(course!=null){
+            ContentValues values =new ContentValues();
+            values.put("id", course.getId());
+            values.put("CourseName", course.getCourseName());
+            values.put("Week", course.getContinuedWeek());
+            values.put("Teacher", course.getTeacher());
+            values.put("Classroom", course.getClassroom());
+            values.put("Time", course.getTime());
+            sqlDb.insert("Course", null, values);
+        }
+    }
+    public boolean loadCourse(){
+
+        Cursor cursor= sqlDb.query("Course", null, null,null, null, null, null);
+        int flag=0;
+        if(cursor.moveToFirst()){
+            do{
+                flag=1;
+                Course course =new Course();
+                String id = cursor.getString(cursor.getColumnIndex("id"));
+                course.setCourseName(cursor.getString(cursor.getColumnIndex("CourseName")));
+                course.setContinuedWeek(cursor.getString(cursor.getColumnIndex("Week")));
+                course.setTeacher(cursor.getString(cursor.getColumnIndex("Teacher")));
+                course.setClassroom(cursor.getString(cursor.getColumnIndex("Classroom")));
+                course.setTime(cursor.getString(cursor.getColumnIndex("Time")));
+
+                HandleResponseUtil.addToList(id, course);
+            }while(cursor.moveToNext());
+            HandleResponseUtil.addToCourseData();
+
+            if(cursor!=null){
+                cursor.close();
+            }
+            if(flag==1)
+                return true;
+        }
+        return false;
     }
 
 }

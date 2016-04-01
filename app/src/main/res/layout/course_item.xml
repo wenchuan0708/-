@@ -9,7 +9,8 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="第一大节"
+        android:text="08:30-09:50"
+        android:layout_gravity="center"
         android:padding="10dp"
         android:textSize="15sp"
         />

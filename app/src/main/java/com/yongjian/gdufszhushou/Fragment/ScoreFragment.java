@@ -39,6 +39,7 @@ public class ScoreFragment extends Fragment {
     private Button importbtn;
     private ArrayList<Score> scoreData = HandleResponseUtil.scores;
     private SwipeRefreshLayout swipeRefreshLayout;
+    int flag = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class ScoreFragment extends Fragment {
         aveTextView = (TextView) view.findViewById(R.id.ave_score);
         listView = (ListView) view.findViewById(R.id.score_lv);
         importbtn = (Button) view.findViewById(R.id.impotbtn);
+
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         swipeRefreshLayout.setColorSchemeColors(android.R.color.holo_blue_bright);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -69,11 +71,9 @@ public class ScoreFragment extends Fragment {
                 });
             }
         });
-        if (HandleResponseUtil.db ==null){
-            HandleResponseUtil.db = Db.getInstance(getActivity());
-        }
-        //findFromDb();
 
+
+        findFromDb();
         importbtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -97,6 +97,7 @@ public class ScoreFragment extends Fragment {
                             public void run() {
                                 saveAvecore();
                                 initView();
+                                flag =1;
                                 ProgressDialogHelper.closeProgressDialog();
                             }
                         });
@@ -114,7 +115,7 @@ public class ScoreFragment extends Fragment {
             if (HandleResponseUtil.db ==null){
                 HandleResponseUtil.db = Db.getInstance(getActivity());
             }
-            if (HandleResponseUtil.db != null){
+            if (HandleResponseUtil.db != null&&flag ==1){
                 if (HandleResponseUtil.db.loadScore()){
                     initView();
                 }
