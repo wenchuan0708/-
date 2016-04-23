@@ -65,10 +65,12 @@ public class ScoreAdapter extends BaseAdapter {
             int ascore = Integer.parseInt(score.getScore());
             if (ascore >=90){
                 circleshade = R.drawable.circle_amber;
-            }else if (ascore>=80&&ascore<90){
+            }else  if (ascore>=85&&ascore<90){
+               circleshade = R.drawable.circle_orange;
+            } else if (ascore>=80&&ascore<85){
                 circleshade =R.drawable.circle_blue;
             }else if (ascore>=70&&ascore<80){
-                circleshade = R.drawable.circle_brown;
+                circleshade = R.drawable.circle_teal;
             }else if (ascore>=60&&ascore<70){
                 circleshade=R.drawable.circle_green;
             }else{

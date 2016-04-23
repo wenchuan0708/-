@@ -6,5 +6,5 @@
     android:padding="16dp"
     android:textSize="18sp"
     android:textColor="#6699FF"
-    android:text="这一天你没有课\n"
+    android:text="这一天你没有课呦\n"
     />

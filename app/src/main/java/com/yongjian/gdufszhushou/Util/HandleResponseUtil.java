@@ -4,9 +4,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.yongjian.gdufszhushou.Adapter.NewsAdapter;
 import com.yongjian.gdufszhushou.CallBack;
 import com.yongjian.gdufszhushou.Db.Db;
+import com.yongjian.gdufszhushou.Fragment.NewsFramgment;
 import com.yongjian.gdufszhushou.Model.Course;
+import com.yongjian.gdufszhushou.Model.News;
 import com.yongjian.gdufszhushou.Model.Score;
 
 import org.jsoup.Jsoup;
@@ -26,6 +29,53 @@ public class HandleResponseUtil {
     public static ArrayList<Score> scores=new ArrayList<Score>();
     public static Db db=null;
     public static String aveScore;
+
+    public static void parseTitleData(String response){
+        if (response!=null &&!"".equals(response)){
+            Log.d("CCC","response不为空");
+            Document doc = Jsoup.parse(response);
+            Log.d("CCC",doc.toString());
+            Element element = doc.getElementsByAttributeValue("class","pageTPList").first();
+            Log.d("CCC",element.toString());
+            Elements elements = element.select("li").select("div[class=title]>a");
+
+            Log.d("CCc","1111");
+            Log.d("CCC",elements.toString());
+            for (Element ele:elements){
+                String href = ele.attr("href");
+                Log.d("CCC",href);
+                String title = ele.text();
+                Log.d("CCC",title);
+                News news = new News();
+                news.setTitle(title);
+                news.setPath(href);
+                HttpUtil.datamap.put(news.getPath(),news);
+            }
+            NewsFramgment.newsAdapter=new NewsAdapter(new ArrayList<News>(HttpUtil.datamap.values()), NewsAdapter.context);
+            NewsFramgment.recyclerView.setAdapter(NewsFramgment.newsAdapter);
+            NewsFramgment.newsAdapter.notifyDataSetChanged();
+        }else{
+            Log.d("CCC","response为空");
+        }
+    }
+
+    public static void parseContentData(String response){
+        if (response!=null &&!"".equals(response)){
+            Document document = Jsoup.parse(response);
+            Log.d("CCC",document.toString());
+            Elements pElements  = document.select("p");
+            Log.d("CCC",pElements.toString());
+            Log.d("CCC","111");
+            StringBuilder sb = new StringBuilder();
+            for (Element e : pElements) {
+                String str = e.text();
+                Log.d("CCC",str);
+                Log.d("CCC","1111");
+                sb.append(str + "\n");
+            }
+            HttpUtil.datamap.get(HttpUtil.path).setContent(sb.toString());
+        }
+    }
 
     public static void handleScoreHtmlStr(String htmlStr, final CallBack callBack){
         new AsyncTask<String,Integer,Boolean>(){

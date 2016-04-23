@@ -74,7 +74,7 @@ public class CourseAdapter extends BaseAdapter {
             } else if (courseTime.equals("18:30-20:30")) {
                 circleShape=R.drawable.circle_deep_orange;
             } else {
-                circleShape =R.drawable.circle_indigo;
+                circleShape =R.drawable.circle_orange;
             }
 
             holder.courseName.setText(course.getCourseName());

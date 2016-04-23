@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DrawerLayoutActivity"></activity>
+        <activity android:name=".activity.NewsActivity"></activity>
     </application>
 
 </manifest>

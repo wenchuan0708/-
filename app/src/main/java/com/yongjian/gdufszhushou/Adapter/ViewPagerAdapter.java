@@ -53,7 +53,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        if (data.size()<1){
+        if (data.get(position).size()<1){
             TextView textView = (TextView) View.inflate(context, R.layout.course_empty,null);
             container.addView(textView);
             return textView;
