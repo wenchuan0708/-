@@ -37,18 +37,26 @@ public class HandleResponseUtil {
             Log.d("CCC",doc.toString());
             Element element = doc.getElementsByAttributeValue("class","pageTPList").first();
             Log.d("CCC",element.toString());
-            Elements elements = element.select("li").select("div[class=title]>a");
+            Elements elements = element.select("li").select("div[class=title]");
 
             Log.d("CCc","1111");
             Log.d("CCC",elements.toString());
+            Log.d("CCc","1111");
             for (Element ele:elements){
-                String href = ele.attr("href");
+
+                String date = ele.select("span[class=date]").text();
+                Log.d("CCC",date);
+                Log.d("CCc","1111");
+                String href = ele.select("a").attr("href");
                 Log.d("CCC",href);
-                String title = ele.text();
+                Log.d("CCc","1111");
+                String title = ele.select("a").text();
                 Log.d("CCC",title);
+                Log.d("CCc","1111");
                 News news = new News();
                 news.setTitle(title);
                 news.setPath(href);
+                news.setDate(date);
                 HttpUtil.datamap.put(news.getPath(),news);
             }
             NewsFramgment.newsAdapter=new NewsAdapter(new ArrayList<News>(HttpUtil.datamap.values()), NewsAdapter.context);

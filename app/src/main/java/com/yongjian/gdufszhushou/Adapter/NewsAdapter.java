@@ -37,15 +37,18 @@ public class NewsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder mvh = (ViewHolder) holder;
         mvh.textView.setText(dataset.get(position).getTitle());
+        mvh.DateView.setText(dataset.get(position).getDate());
         holder.itemView.setTag(dataset.get(position));
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView textView = null;
+        private TextView DateView = null;
         public ViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.textView);
+            DateView = (TextView) itemView.findViewById(R.id.date);
             itemView.setOnClickListener(this);
         }
 

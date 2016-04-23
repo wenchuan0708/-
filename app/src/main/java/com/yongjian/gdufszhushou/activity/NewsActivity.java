@@ -23,6 +23,7 @@ public class NewsActivity extends AppCompatActivity {
 
     private TextView news_title;
     private TextView news_content;
+    private TextView news_date;
     private ScrollView scrollView;
     private static News mNews;
     public static void startNewsActivity(Context context, News news) {
@@ -36,6 +37,7 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.news_activity_layout);
         news_title = (TextView) findViewById(R.id.news_title);
         news_content = (TextView) findViewById(R.id.news_content);
+        news_date = (TextView) findViewById(R.id.news_date);
         scrollView = (ScrollView) findViewById(R.id.news_scrollView);
         ProgressDialogHelper.showProgressDialog(this,"正在加载，请稍后");
         HttpUtil.getHtmlUtil(this, mNews.getPath(), new CallBack() {
@@ -50,6 +52,7 @@ public class NewsActivity extends AppCompatActivity {
                 ProgressDialogHelper.closeProgressDialog();
                 news_title.setText(mNews.getTitle());
                 news_content.setText(mNews.getContent());
+                news_date.setText(mNews.getDate());
 
             }
         }, Request.Method.GET,null,null);

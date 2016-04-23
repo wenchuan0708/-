@@ -7,6 +7,9 @@ public class News {
     private String title;
     private String content;
     private String path;
+    private String date;
+
+
     public static String NEWS_INDEX = "http://news.gdufs.edu.cn/Category_24/Index.aspx";
     public static String INDEX = "http://news.gdufs.edu.cn";
 
@@ -33,4 +36,12 @@ public class News {
     public void setPath(String path) {
         this.path = path;
     }
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 }
