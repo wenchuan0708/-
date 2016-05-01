@@ -72,8 +72,10 @@ public class ScoreFragment extends Fragment {
             }
         });
 
-
-        findFromDb();
+      // findFromDb();
+        if (scoreData.size()!=0){
+            initView();
+        }
         importbtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -110,20 +112,20 @@ public class ScoreFragment extends Fragment {
 
         return view;
     }
-    public void findFromDb(){
-        if (scoreData.size() ==0){
-            if (HandleResponseUtil.db ==null){
-                HandleResponseUtil.db = Db.getInstance(getActivity());
-            }
-            if (HandleResponseUtil.db != null&&flag ==1){
-                if (HandleResponseUtil.db.loadScore()){
-                    initView();
-                }
-            }
-        }else{
-            initView();
-        }
-    }
+//    public void findFromDb(){
+//        if (scoreData.size() ==0){
+//            if (HandleResponseUtil.db ==null){
+//                HandleResponseUtil.db = Db.getInstance(getActivity());
+//            }
+//            if (HandleResponseUtil.db != null&&flag ==1){
+//                if (HandleResponseUtil.db.loadScore()){
+//                    initView();
+//                }
+//            }
+//        }else{
+//            initView();
+//        }
+//    }
     public void initView(){
         setAveScore();
         listView.clearFocus();

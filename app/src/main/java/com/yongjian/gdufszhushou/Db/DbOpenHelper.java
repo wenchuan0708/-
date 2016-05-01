@@ -19,6 +19,32 @@ public class DbOpenHelper extends SQLiteOpenHelper {
             + "ScoreType text,"
             + "ScoreCredit text)";
 
+    private static final String CREATE_COURSE = "create table Course("
+            +"id integer primary key autoincrement"
+            +"CourseName text"
+            +"CourseTime text"
+            +"CourseWeek text"
+            +"CourseRoom text"
+            +"CourseTeacher text)";
+
+    private static final String CREATE_PLAN = "create table Plan("
+            +"id integer primary key autoincrement"
+            +"PlanName text"
+            +"PlanType text"
+            +"PlanCredit text"
+            +"PlanTime text)";
+    private static final String CREATE_NEWS = "create table News("
+            +"id integer primary key autoincrement"
+            +"NewsTitle text"
+            +"NewsContent text"
+            +"NewsDate"
+            +"NewsPath text)";
+    private static final String CREATE_NOTICE = "create table Notice("
+            +"id integer primary key autoincrement"
+            +"NoticeTitle text"
+            +"NoticeContent text"
+            +"NoticeDate"
+            +"NoticePath text)";
 
     public DbOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -28,6 +54,10 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_SCORE);
+        db.execSQL(CREATE_COURSE);
+        db.execSQL(CREATE_PLAN);
+        db.execSQL(CREATE_NOTICE);
+        db.execSQL(CREATE_NEWS);
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.yongjian.gdufszhushou.CallBack;
 import com.yongjian.gdufszhushou.Model.News;
+import com.yongjian.gdufszhushou.Model.Notice;
 import com.yongjian.gdufszhushou.Widge.AlertDialogHelper;
 import com.yongjian.gdufszhushou.Widge.ProgressDialogHelper;
 import org.jsoup.Connection;
@@ -30,11 +31,13 @@ import java.util.Map;
  */
 public class HttpUtil {
     public static LinkedHashMap<String, News> datamap = new LinkedHashMap<String, News>();
+    public static LinkedHashMap<String, Notice> noticedatamap = new LinkedHashMap<String, Notice>();
     public static String cookie = "";
     public static String userName = "";
     public static String password = "";
     public static Context mcontext;
     public static String path;
+    public static String noticePath;
     private static boolean isGBK = false;
 
     public static void login(final CallBack callback) {
@@ -141,7 +144,12 @@ public class HttpUtil {
             if(url.substring(0,1).equals("/")==true){
                 path=url;
                 url=News.INDEX+path;
+            }else if(url.substring(0,2).equals("..")==true){
+                noticePath = url;
+                url = Notice.INDEX+noticePath.substring(2);
+                Log.d("CCC",url);
             }
+            Log.d("CCC",url);
             stringRequest = new StringRequest(url,
                     new Response.Listener<String>() {
                         @Override
@@ -184,7 +192,7 @@ public class HttpUtil {
                     }
                     return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
                 }
-            };
+             };
 
 
         }
@@ -266,6 +274,39 @@ public class HttpUtil {
                         HandleResponseUtil.handleCourseHtmlStr(response, callBack);
                     }
                 }, Request.Method.GET, headers, null);
+            }
+        }).start();
+    }
+
+    public static void getPlanHtml(final Context context,final  CallBack callBack){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String url = "http://jxgl.gdufs.edu.cn/jsxsd/pyfa/pyfa_query";
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+                headers.put("Accept-Encoding", "gzip, deflate, sdch");
+                headers.put("Accept-Language", "zh-CN,zh;q=0.8");
+                headers.put("Connection", "keep-alive");
+                headers.put("Cookie", cookie);
+                headers.put("Host", "jxgl.gdufs.edu.cn");
+                headers.put("Referer", "http://jxgl.gdufs.edu.cn/jsxsd/pyfa/pyfazd_query");
+                headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36");
+                getHtmlUtil(context, url, new CallBack() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onFinsh(String response) {
+                        Log.d("CCC","获取网页成功");
+                        HandleResponseUtil.handlePlanCourseHtmlStr(response,callBack);
+                        Log.d("CCC","分析完成");
+
+                    }
+                },Request.Method.GET,headers,null);
+
             }
         }).start();
     }

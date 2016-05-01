@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:maxLength="11"
         android:padding="10dp"
+        android:numeric="integer"
         android:id="@+id/login_id"/>
     <EditText
         android:hint="密码"

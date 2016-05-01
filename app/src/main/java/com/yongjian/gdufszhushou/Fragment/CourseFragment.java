@@ -42,7 +42,10 @@ public class CourseFragment extends Fragment {
         viewPager = (ViewPager)view.findViewById(R.id.viewPager);
         emptyLayout = (LinearLayout) view.findViewById(R.id.empty_layout);
 
-        findFromDb();
+      //  findFromDb();
+        if (data.size()!=0){
+            initViewPage();
+        }
         importbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,20 +76,20 @@ public class CourseFragment extends Fragment {
         });
         return view;
     }
-    private void findFromDb() {
-        if(data.size()==0){
-            if(HandleResponseUtil.db==null){
-                HandleResponseUtil.db= Db.getInstance(getActivity());
-            }
-            if(HandleResponseUtil.db!=null&&flag ==1){
-                if(HandleResponseUtil.db.loadCourse()){
-                    initViewPage();
-                }
-            }
-        }
-        else
-            initViewPage();
-    }
+//    private void findFromDb() {
+//        if(data.size()==0){
+//            if(HandleResponseUtil.db==null){
+//                HandleResponseUtil.db= Db.getInstance(getActivity());
+//            }
+//            if(HandleResponseUtil.db!=null&&flag ==1){
+//                if(HandleResponseUtil.db.loadCourse()){
+//                    initViewPage();
+//                }
+//            }
+//        }
+//        else
+//            initViewPage();
+//    }
     public void initViewPage(){
         vpAdapter = new ViewPagerAdapter(getActivity(),data);
         viewPager.setAdapter(vpAdapter);

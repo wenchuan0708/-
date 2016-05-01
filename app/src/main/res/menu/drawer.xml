@@ -6,6 +6,10 @@
             android:icon="@drawable/ic_favorite"
             android:title="学校要闻" />
         <item
+            android:id="@+id/school_notice"
+            android:icon="@drawable/ic_favorite"
+            android:title="通知公告" />
+        <item
             android:id="@+id/school_course"
             android:icon="@drawable/ic_favorite"
             android:title="我的课表" />
@@ -14,8 +18,16 @@
             android:icon="@drawable/ic_favorite"
             android:title="绩点查询" />
         <item
+            android:id="@+id/plan_course"
+            android:icon="@drawable/ic_favorite"
+            android:title="培养方案" />
+        <item
+            android:id="@+id/school_calendar"
+            android:icon="@drawable/ic_favorite"
+            android:title="广外校历" />
+        <item
             android:id="@+id/about"
             android:icon="@drawable/ic_favorite"
-            android:title="关于我" />
+            android:title="关于我们" />
     </group>
 </menu>

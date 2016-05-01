@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.volley.toolbox.StringRequest;
+import com.yongjian.gdufszhushou.BuildConfig;
 import com.yongjian.gdufszhushou.Model.Course;
+import com.yongjian.gdufszhushou.Model.News;
 import com.yongjian.gdufszhushou.Model.Score;
 import com.yongjian.gdufszhushou.Util.HandleResponseUtil;
+import com.yongjian.gdufszhushou.Util.HttpUtil;
 
 /**
  * Created by YONGJIAN on 2016/3/16 0016.
@@ -63,16 +66,29 @@ public class Db {
         }
         return  false;
     }
+    public void saveNews(News news){
+        if (news!=null){
+            ContentValues values = new ContentValues();
+            values.put("NewsTitle",news.getTitle());
+            values.put("NewsContent",news.getContent());
+            values.put("NewsPath",news.getPath());
+            values.put("NewsDate",news.getDate());
+            sqlDb.insert("News",null,values);
+        }
+    }
+//    public boolean loadNews(){
+//        Cursor cursor = sqlDb.query("News",null,null,null,null,null,null);
+//        HttpUtil.datamap.clear();
+//    }
     public void saveCourse(Course course){
 
         if(course!=null){
             ContentValues values =new ContentValues();
-            values.put("id", course.getId());
             values.put("CourseName", course.getCourseName());
-            values.put("Week", course.getContinuedWeek());
-            values.put("Teacher", course.getTeacher());
-            values.put("Classroom", course.getClassroom());
-            values.put("Time", course.getTime());
+            values.put("CourseWeek", course.getContinuedWeek());
+            values.put("CourseTeacher", course.getTeacher());
+            values.put("CourseRoom", course.getClassroom());
+            values.put("CourseTime", course.getTime());
             sqlDb.insert("Course", null, values);
         }
     }
@@ -103,5 +119,6 @@ public class Db {
         }
         return false;
     }
+
 
 }

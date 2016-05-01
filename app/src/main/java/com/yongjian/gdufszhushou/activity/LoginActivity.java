@@ -38,19 +38,27 @@ public class LoginActivity  extends Activity {
         loginbtn=(Button)findViewById(R.id.sign_in);
         userId =(EditText) findViewById(R.id.login_id);
         pwd = (EditText) findViewById(R.id.login_pwd);
-        isSetUser();
+        if(!(getIntent().getBooleanExtra("return",false)))
+        {
+            isSetUser();
+            if (!(TextUtils.isEmpty(userId.getText().toString())))
+            {
+                user = userId.getText().toString();
+                pass = pwd.getText().toString();
+                saveUserAndPass();
+            }
+        }
 
         loginbtn.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 user = userId.getText().toString();
                 pass = pwd.getText().toString();
-                Log.d("AAA",pass);
-                saveUserandPass();
+                saveUserAndPass();
             }
         });
     }
-    public void saveUserandPass(){
+    public void saveUserAndPass(){
             if (TextUtils.isEmpty(user)||TextUtils.isEmpty(pass)){
                 AlertDialogHelper.showAlertDialog(LoginActivity.this,"善意的提醒","请填写完整的学号和密码");
             }else

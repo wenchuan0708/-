@@ -5,11 +5,15 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.yongjian.gdufszhushou.Adapter.NewsAdapter;
+import com.yongjian.gdufszhushou.Adapter.NoticeAdapter;
 import com.yongjian.gdufszhushou.CallBack;
 import com.yongjian.gdufszhushou.Db.Db;
 import com.yongjian.gdufszhushou.Fragment.NewsFramgment;
+import com.yongjian.gdufszhushou.Fragment.NoticeFragment;
 import com.yongjian.gdufszhushou.Model.Course;
 import com.yongjian.gdufszhushou.Model.News;
+import com.yongjian.gdufszhushou.Model.Notice;
+import com.yongjian.gdufszhushou.Model.PlanCourse;
 import com.yongjian.gdufszhushou.Model.Score;
 
 import org.jsoup.Jsoup;
@@ -27,9 +31,56 @@ import java.util.List;
 public class HandleResponseUtil {
 
     public static ArrayList<Score> scores=new ArrayList<Score>();
-    public static Db db=null;
+    public static ArrayList<PlanCourse> planCoursesList = new ArrayList<PlanCourse>();
+    //public static Db db=null;
     public static String aveScore;
+    //解析公告标题
+    public static void parseNoticeTitle(String response){
+        if (response!=null &&!"".equals(response)){
+            Document doc = Jsoup.parse(response);
+            Log.d("CCC",doc.toString());
+            Element element = doc.getElementsByAttributeValue("class","m_leftlist").first();
+            Elements elements = element.select("LI");
+            Log.d("CCc","1111");
+            Log.d("CCC",elements.toString());
+            for (Element ele:elements){
+                String date = ele.select("DIV[class=time]").text();
+             //   Log.d("CCc","1111");
+                String href = ele.select("A").attr("href");
+             //   Log.d("CCC",href);
+              //  Log.d("CCc","1111");
+                String title = ele.select("A").attr("title");
 
+                Notice notice = new Notice();
+                notice.setDate(date);
+                notice.setPath(href);
+                notice.setTitle(title);
+             //   Log.d("CCC",title);
+              //  Log.d("CCc","1111");
+                HttpUtil.noticedatamap.put(notice.getPath(),notice);
+            }
+            NoticeFragment.noticeAdapter = new NoticeAdapter(new ArrayList<Notice>(HttpUtil.noticedatamap.values()),NoticeAdapter.context);
+            NoticeFragment.recyclerView.setAdapter(NoticeFragment.noticeAdapter);
+            NoticeFragment.noticeAdapter.notifyDataSetChanged();
+        }
+    }
+    //解析公告内容
+    public static void parseNoticeContent(String response){
+        if (response!=null &&!"".equals(response)){
+            Document document = Jsoup.parse(response);
+            Elements pElements  = document.select("p");
+            StringBuilder sb = new StringBuilder();
+            for (Element e : pElements) {
+                String str = e.text();
+               // Log.d("CCC",str);
+              //  Log.d("CCC","1111");
+                sb.append(str + "\n");
+            }
+            HttpUtil.noticedatamap.get(HttpUtil.noticePath).setContent(sb.toString());
+        }
+    }
+
+    //解析新闻标题
     public static void parseTitleData(String response){
         if (response!=null &&!"".equals(response)){
             Log.d("CCC","response不为空");
@@ -66,25 +117,25 @@ public class HandleResponseUtil {
             Log.d("CCC","response为空");
         }
     }
-
+    //解析新闻内容
     public static void parseContentData(String response){
         if (response!=null &&!"".equals(response)){
             Document document = Jsoup.parse(response);
-            Log.d("CCC",document.toString());
+          //  Log.d("CCC",document.toString());
             Elements pElements  = document.select("p");
-            Log.d("CCC",pElements.toString());
-            Log.d("CCC","111");
+         //   Log.d("CCC",pElements.toString());
+         //   Log.d("CCC","111");
             StringBuilder sb = new StringBuilder();
             for (Element e : pElements) {
                 String str = e.text();
-                Log.d("CCC",str);
-                Log.d("CCC","1111");
+            //    Log.d("CCC",str);
+             //   Log.d("CCC","1111");
                 sb.append(str + "\n");
             }
             HttpUtil.datamap.get(HttpUtil.path).setContent(sb.toString());
         }
     }
-
+    //解析绩点
     public static void handleScoreHtmlStr(String htmlStr, final CallBack callBack){
         new AsyncTask<String,Integer,Boolean>(){
 
@@ -118,7 +169,7 @@ public class HandleResponseUtil {
                         score.setType(tds.select("td").get(8).text());
                        // Log.d("AAA",tds.select("td").get(8).text());
                         score.setScorePoint(handleScoretoPoint(tds.select("td").get(4).text()));
-                        db.saveScore(score);
+                       //db.saveScore(score);
                         scores.add(score);
                     }
 
@@ -142,6 +193,7 @@ public class HandleResponseUtil {
             }
         }.execute(htmlStr);
     }
+
     public static String handleScoretoPoint(String s ) {
         int number = Integer.parseInt(s);
         String point = null;
@@ -169,6 +221,47 @@ public class HandleResponseUtil {
         return point;
     }
 
+    //解析培养方案
+    public static void handlePlanCourseHtmlStr(final String htmlStr, final CallBack callBack){
+        new AsyncTask<String,Integer,Boolean>(){
+
+            @Override
+            protected Boolean doInBackground(String... params) {
+                planCoursesList.clear();
+                boolean result = false;
+                try{
+                    Document doc = Jsoup.parse(htmlStr);
+                    Elements ele = doc.getElementsByTag("table");
+                    Elements trs = ele.select("tr");
+                    for (int i= 2;i<trs.size();i++){
+                        Element tds = trs.get(i);
+                        PlanCourse plc = new PlanCourse();
+                        plc.setcName(tds.select("td").get(3).text());
+                        plc.setcTime(tds.select("td").get(1).text());
+                        plc.setcCredit(tds.select("td").get(5).text());
+                        plc.setcType(tds.select("td").get(8).text());
+                        planCoursesList.add(plc);
+                    }
+                    result = true;
+                }
+                catch (Exception e){
+                    result =false;
+                    Log.d("CCC", "解析错误： " + e);
+                }
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
+                if (result)
+                    callBack.onFinsh("");
+                else
+                    Log.d("CCC","handle PlanCourse failed");
+            }
+        }.execute(htmlStr);
+    }
+
     public static ArrayList<List<Course>> courseData=new ArrayList<List<Course>>();
     public static List<Course> list1 = new ArrayList<Course>();
     public static List<Course> list2 = new ArrayList<Course>();
@@ -177,7 +270,7 @@ public class HandleResponseUtil {
     public static List<Course> list5 = new ArrayList<Course>();
     public static List<Course> list6 = new ArrayList<Course>();
     public static List<Course> list7 = new ArrayList<Course>();
-
+    //解析课表
     public static void handleCourseHtmlStr(String htmlStr,final  CallBack callBack){
         new AsyncTask<String, Integer, Boolean>() {
             @Override
@@ -259,7 +352,7 @@ public class HandleResponseUtil {
             course.setId("7");
             list7.add(course);
         }
-        db.saveCourse(course);
+        //db.saveCourse(course);
     }
     public static String switchTime(int j){
         int a = j-1;
