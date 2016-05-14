@@ -9,13 +9,13 @@
  **8.关于我们**     
 
 ## Screenshots   
-<img src="1.jpg" width="32%">
-<img src="2.jpg" width="32%">
-<img src="13.png" width="32%">
-<img src="14.png" width="32%">
-<img src="5.png" width="32%">
-<img src="6.png" width="32%">
-<img src="7.jpg" width="32%">
-<img src="8.jpg" width="32%">
-<img src="9.jpg" width="32%">
-<img src="10.png" width="32%">
+<img src="效果截图/1.jpg" width="32%">
+<img src="效果截图/2.jpg" width="32%">
+<img src="效果截图/13.png" width="32%">
+<img src="效果截图/14.png" width="32%">
+<img src="效果截图/5.png" width="32%">
+<img src="效果截图/6.png" width="32%">
+<img src="效果截图/7.jpg" width="32%">
+<img src="效果截图/8.jpg" width="32%">
+<img src="效果截图/9.jpg" width="32%">
+<img src="效果截图/10.png" width="32%">
