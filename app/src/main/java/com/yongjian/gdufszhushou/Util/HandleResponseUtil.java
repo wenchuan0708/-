@@ -23,7 +23,9 @@ import org.jsoup.select.Elements;
 import org.jsoup.select.Evaluator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by YONGJIAN on 2016/3/15 0015.
@@ -32,6 +34,9 @@ public class HandleResponseUtil {
 
     public static ArrayList<Score> scores=new ArrayList<Score>();
     public static ArrayList<PlanCourse> planCoursesList = new ArrayList<PlanCourse>();
+
+    public static Map<String,String> report = new HashMap<String, String>();
+    public static StringBuilder sb = new StringBuilder();
     //public static Db db=null;
     public static String aveScore;
     //解析公告标题
@@ -412,9 +417,62 @@ public class HandleResponseUtil {
         list1.clear();
         list2.clear();
         list3.clear();
-        list3.clear();
+        list4.clear();
         list5.clear();
         list6.clear();
         list7.clear();
     }
-}
+    //解析天气
+    public static void handleReporter(String response, final CallBack callBack) {
+
+        new AsyncTask<String, Integer, Boolean>() {
+            @Override
+            protected Boolean doInBackground(String... params) {
+                boolean result =false;
+                try{
+                    Document doc = Jsoup.parse(params[0]);
+                    Elements ele =doc.select("ul[class=t clearfix]").select("li");
+                    Log.d("CCC",ele.toString());
+                    int i= 1;
+                    for (Element e:ele){
+                        if(i>3) break;
+                        String temp = e.select("p[class=tem]").text();
+                        Log.d("CCC",temp);
+                        String wea = e.select("p[class=wea]").text();
+                        Log.d("CCC",wea);
+                        report.put("temp"+i,temp);
+                        report.put("qi"+i,wea);
+                        i=i+1;
+                    }
+                    Elements e = doc.select("div[class=hide show]");
+                    sb.append(e.select("li[class=li1]").select("p").text());
+                    Log.d("CCC",sb.toString());
+                    sb.append(e.select("li[class=li2]").select("p").text());
+                    Log.d("CCC",sb.toString());
+                    sb.append(e.select("li#chuanyi").select("p").text());
+                    Log.d("CCC",sb.toString());
+                    sb.append(e.select("li[class=li5]").select("p").text());
+                    Log.d("CCC",sb.toString());
+                    result = true;
+            }  catch (Exception e){
+                result =false;
+                Log.d("winson", "解析错误： " + e);
+            }
+            return result;
+        }
+            @Override
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
+                if (result)
+                    callBack.onFinsh("");
+                else
+                    Log.d("TAG","handle Score failed");
+            }
+        }.execute(response);
+
+
+
+
+        }
+    }
+

@@ -19,6 +19,7 @@ import com.yongjian.gdufszhushou.CallBack;
 import com.yongjian.gdufszhushou.R;
 import com.yongjian.gdufszhushou.Util.HttpUtil;
 import com.yongjian.gdufszhushou.Widge.AlertDialogHelper;
+import com.yongjian.gdufszhushou.Widge.ProgressDialogHelper;
 
 /**
  * Created by YONGJIAN on 2016/3/15 0015.
@@ -43,6 +44,7 @@ public class LoginActivity  extends Activity {
             isSetUser();
             if (!(TextUtils.isEmpty(userId.getText().toString())))
             {
+                ProgressDialogHelper.showProgressDialog(LoginActivity.this,"正在登录...请稍候");
                 user = userId.getText().toString();
                 pass = pwd.getText().toString();
                 saveUserAndPass();
@@ -52,6 +54,7 @@ public class LoginActivity  extends Activity {
         loginbtn.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                ProgressDialogHelper.showProgressDialog(LoginActivity.this,"正在登录...请稍候");
                 user = userId.getText().toString();
                 pass = pwd.getText().toString();
                 saveUserAndPass();
@@ -60,6 +63,7 @@ public class LoginActivity  extends Activity {
     }
     public void saveUserAndPass(){
             if (TextUtils.isEmpty(user)||TextUtils.isEmpty(pass)){
+                ProgressDialogHelper.closeProgressDialog();
                 AlertDialogHelper.showAlertDialog(LoginActivity.this,"善意的提醒","请填写完整的学号和密码");
             }else
             {
@@ -68,6 +72,7 @@ public class LoginActivity  extends Activity {
                 HttpUtil.login(new CallBack() {
                     @Override
                     public void onStart() {
+                        ProgressDialogHelper.closeProgressDialog();
                         saveUser();
                         Intent intent = new Intent(LoginActivity.this,DrawerLayoutActivity.class);
                         startActivity(intent);
@@ -79,6 +84,7 @@ public class LoginActivity  extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                ProgressDialogHelper.closeProgressDialog();
                                 AlertDialogHelper.showAlertDialog(LoginActivity.this,"善意的提醒","登陆失败，请确保学号和密码输入正确，并尝试再次登陆");
                             }
                         });

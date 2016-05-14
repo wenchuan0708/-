@@ -26,6 +26,10 @@
             android:icon="@drawable/ic_favorite"
             android:title="广外校历" />
         <item
+            android:id="@+id/reporter"
+            android:icon="@drawable/ic_favorite"
+            android:title="校园天气" />
+        <item
             android:id="@+id/about"
             android:icon="@drawable/ic_favorite"
             android:title="关于我们" />

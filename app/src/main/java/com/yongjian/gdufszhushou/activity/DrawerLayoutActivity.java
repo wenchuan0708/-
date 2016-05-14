@@ -23,6 +23,7 @@ import com.yongjian.gdufszhushou.Fragment.CourseFragment;
 import com.yongjian.gdufszhushou.Fragment.NewsFramgment;
 import com.yongjian.gdufszhushou.Fragment.NoticeFragment;
 import com.yongjian.gdufszhushou.Fragment.PlanCourseFragment;
+import com.yongjian.gdufszhushou.Fragment.ReporterFragment;
 import com.yongjian.gdufszhushou.Fragment.ScoreFragment;
 import com.yongjian.gdufszhushou.Model.News;
 import com.yongjian.gdufszhushou.Model.Notice;
@@ -90,6 +91,9 @@ public class DrawerLayoutActivity extends AppCompatActivity {
                                 break;
                             case R.id.plan_course:
                                 switchToPlanCourse ();
+                                break;
+                            case R.id.reporter:
+                                switchToReporter();
                         }
                         item.setChecked(true);
                         drawerLayout.closeDrawers();
@@ -152,9 +156,13 @@ public class DrawerLayoutActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.cotainer,new CalendarFragment()).commit();
         toolbar.setTitle("广外校历");
     }
+    private void switchToReporter(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.cotainer,new ReporterFragment()).commit();
+        toolbar.setTitle("校园天气");
+    }
     private void switchToAbout(){
         getSupportFragmentManager().beginTransaction().replace(R.id.cotainer,new AboutFragment()).commit();
-        toolbar.setTitle("关于我");
+        toolbar.setTitle("关于我们");
 
     }
     private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
