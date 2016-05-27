@@ -7,6 +7,8 @@
  **6.查看校历**    
  **7.查看天气**    
  **8.关于我们**     
+ 
+## [点击下载](http://fir.im/gwxzs)
 
 ## Screenshots   
 <img src="效果截图/1.jpg" width="32%">
